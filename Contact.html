@@ -1,0 +1,857 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <title>Schedule a Consultation | Prudent Technologies & Consulting</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(60deg, #000000 0%, #afb1b5 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-family: "Arial", sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 1.05;
+      letter-spacing: -2.5px;
+    }
+
+    p {
+      font-family: "Arial", sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.3;
+    }
+
+    .wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 105px 20px 40px;
+      box-sizing: border-box;
+      flex: 1 0 auto;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .sheet {
+      width: 100%;
+      max-width: 540px;
+      
+      width: 92%;
+      min-width: 0;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px 24px 22px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+      color: #1e293b;
+      box-sizing: border-box;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .title {
+      text-align: center;
+      color: #0f172a;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .divider {
+      position: relative;
+      width: 100%;
+      height: 1px;
+      background: #e2e8f0;
+      margin-bottom: 10px;
+    }
+
+    .divider::after {
+      content: "⌄";
+      position: absolute;
+      left: 50%;
+      top: -15px;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 28px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      color: #3b82f6;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      margin-bottom: 2px;
+      color: #334155;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .required {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      max-width: 100%;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #0f172a;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      box-sizing: border-box;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    input,
+    select {
+      height: 32px;
+      padding: 0 12px;
+    }
+
+    textarea {
+      min-height: 50px;
+      padding: 12px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .field.has-error input,
+    .field.has-error select,
+    .field.has-error textarea,
+    .grid input:user-invalid,
+    .grid select:user-invalid,
+    .grid textarea:user-invalid,
+    .grid input:focus:invalid,
+    .grid select:focus:invalid {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+      background-color: #fef2f2 !important;
+    }
+
+    .field.has-error label,
+    .field:has(input:user-invalid) label,
+    .field:has(select:user-invalid) label,
+    .field:has(textarea:user-invalid) label {
+      color: #b91c1c;
+    }
+
+    .error-msg {
+      display: none;
+      color: #ef4444;
+      font-size: 11.5px;
+      font-weight: 600;
+      margin-top: 5px;
+      line-height: 1.35;
+    }
+
+    .field.has-error .error-msg,
+    .agree.has-error .error-msg {
+      display: block;
+      animation: errorIn 0.2s ease-out;
+    }
+
+    @keyframes errorIn {
+      from {
+        opacity: 0;
+        transform: translateY(-3px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .agree {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 10px;
+      padding: 6px;
+      border-radius: 8px;
+      transition: background 0.2s, border 0.2s;
+    }
+
+    .agree.has-error,
+    .agree:has(input:user-invalid),
+    .agree:has(input:focus:invalid) {
+      background-color: #fef2f2;
+      border: 1.5px solid #ef4444;
+    }
+
+    .agree input {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      margin-top: 2px;
+      accent-color: #0f172a;
+      cursor: pointer;
+    }
+
+    .agree-copy {
+      min-width: 0;
+      color: #475569;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .agree-title {
+      margin-bottom: 3px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .sms-note {
+      border-top: 1px solid #e2e8f0;
+      margin-top: 10px;
+      padding-top: 6px;
+      color: #64748b;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .sms-note strong {
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .sms-note a {
+      color: #0f172a;
+      text-decoration: underline;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 36px;
+      margin-top: 10px;
+      padding: 0 24px;
+      border: none;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .cta:hover {
+      background: #1e293b;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .cta:active {
+      transform: scale(0.99);
+    }
+
+    @media (max-width: 768px) {
+      .wrap {
+        padding: 90px 16px 30px;
+      }
+
+      .sheet {
+        padding: 16px 16px 20px;
+        border-radius: 14px;
+      }
+
+      .title {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      .divider {
+        margin-bottom: 14px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wrap {
+        padding: 82px 12px 25px;
+      }
+
+      .sheet {
+        padding: 16px 12px 18px;
+        border-radius: 12px;
+      }
+
+      .title {
+        font-size: 16px;
+      }
+
+      input,
+      select {
+        height: 32px;
+        font-size: 14px;
+      }
+
+      textarea {
+        font-size: 14px;
+      }
+
+      .agree-copy {
+        font-size: 11px;
+      }
+
+      .sms-note {
+        font-size: 10px;
+      }
+
+      .cta {
+        min-height: 44px;
+        font-size: 14px;
+      }
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(8, 12, 22, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.show,
+    .modal:target {
+      display: flex;
+      opacity: 1;
+      animation: popupFadeIn 0.3s ease forwards;
+    }
+
+    @keyframes popupFadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-card {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 38px 32px 34px;
+      text-align: center;
+      box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      transform: scale(0.92);
+      animation: cardZoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      color: #1e293b;
+    }
+
+    @keyframes cardZoomIn {
+      from {
+        transform: scale(0.92) translateY(20px);
+      }
+
+      to {
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 22px;
+      line-height: 1;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition:
+        background 0.2s,
+        color 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .icon-wrap {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #ecfdf5;
+      color: #047857;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .modal-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .modal-sub {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    .detail-list {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 11px;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .detail-value {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .detail-value.status-confirmed {
+      color: #059669;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.2s ease;
+      flex: 1;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: #1e293b;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    @media (max-width: 480px) {
+      .modal-card {
+        padding: 28px 18px 24px;
+      }
+
+      .modal-card h3 {
+        font-size: 16px;
+      }
+
+      .modal-sub {
+        font-size: 13px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+    }
+</style>
+</head>
+
+<body>
+  <header class="header">
+    <a href="index.html" class="logo">
+      <img src="images/new_logo.png" alt="Prudent" />
+    </a>
+
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" hidden />
+
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="index.html#wwd">What We Deliver</a>
+      <a href="index.html#hww">How We Work</a>
+      <a href="index.html#ps">Partners</a>
+      <a href="index.html#careers">Careers</a>
+    </nav>
+
+    <div class="header-right">
+      <a href="Contact.html" class="contact-btn">Contact Us</a>
+
+      <label for="menu-toggle" class="menu-btn" aria-label="Toggle navigation menu">
+        <span class="bar bar-1"></span>
+        <span class="bar bar-2"></span>
+        <span class="bar bar-3"></span>
+      </label>
+    </div>
+
+    <label for="menu-toggle" class="menu-backdrop" aria-hidden="true"></label>
+  </header>
+  <main class="wrap">
+    <div class="sheet">
+      <h2 class="title">Schedule a Consultation</h2>
+      <div class="divider"></div>
+      <form class="form" id="consultationForm" action="#thanks" method="GET">
+        <div class="grid">
+          <div class="field" id="field-full-name">
+            <label for="full_name">
+              Full Name
+              <span class="required">*</span>
+            </label>
+
+            <input type="text" id="full_name" name="full_name" placeholder="e.g. Jane Doe" minlength="2"
+              pattern="^[A-Za-z\s]+$" title="Please enter at least 2 characters (letters only)" required
+              autocomplete="name" />
+          </div>
+
+          <div class="field" id="field-company-name">
+            <label for="company_name">
+              Company Name
+              <span class="required">*</span>
+            </label>
+
+            <input type="text" id="company_name" name="company_name" placeholder="e.g. Acme Corp" minlength="2" pattern="^[A-Za-z\s]+$" title="Please enter at least 2 characters (letters only)" required autocomplete="organization" />
+          </div>
+
+          <div class="field" id="field-email">
+            <label for="email">
+              Work Email
+              <span class="required">*</span>
+            </label>
+
+            <input type="email" id="email" name="email" placeholder="jane@company.com" required autocomplete="email" />
+          </div>
+
+          <div class="field" id="field-phone">
+            <label for="phone">
+              Phone Number
+              <span class="required">*</span>
+            </label>
+
+            <input type="tel" id="phone" name="phone" placeholder="Phone number (e.g. +1 234 567 8900)" maxlength="20" pattern="^\+?[0-9\s\-\(\)]+$" title="Please enter a valid phone number" required autocomplete="tel" />
+          </div>
+
+          <div class="field" id="field-role">
+            <label for="role"> Role / Title </label>
+
+            <input type="text" id="role" name="role" placeholder="e.g. Chief Technology Officer" pattern="^[A-Za-z\s]+$" title="Letters only" autocomplete="organization-title" />
+          </div>
+
+          <div class="field" id="field-service">
+            <label for="service">
+              Service
+              <span class="required">*</span>
+            </label>
+
+            <select id="service" name="service" required>
+              <option value="" disabled selected>--Select Service--</option>
+              <option value="Consulting">Consulting</option>
+              <option value="Technology Services">Technology Services</option>
+              <option value="Digital Transformation">Digital Transformation</option>
+              <option value="Cloud Services">Cloud Services</option>
+              <option value="Software Development">Software Development</option>
+            </select>
+          </div>
+
+          <div class="field full" id="field-requirement">
+            <label for="requirement">
+              Please explain your requirement in brief
+            </label>
+
+            <textarea id="requirement" name="requirement"
+              placeholder="Tell us about your project, timeline, and strategic goals..."></textarea>
+          </div>
+        </div>
+
+        <div class="agree" id="agree-wrap">
+          <input type="checkbox" id="agree" name="agree" required />
+
+          <div class="agree-copy">
+            <div class="agree-title">
+              AGREE
+              <span class="required">*</span>
+            </div>
+
+            <div>
+              By checking the box above, you agree to receive text messages
+              from Prudent Technologies and consulting INC regarding updates,
+              alerts, and notifications. Message frequency varies but will not
+              be more than 2 messages per day unless there is a notification
+              event. Msg &amp; Data rates may apply. Reply HELP for help. Reply
+              STOP to opt out.
+            </div>
+          </div>
+        </div>
+
+        <div class="sms-note">
+          <strong> SMS SHARING/DISCLOSURE: </strong>
+
+          No mobile information will be shared with third parties/affiliates
+          for marketing/promotional purposes at any time. For more
+          information, please see our
+
+          <a href="#" style="text-decoration: none;"> Privacy Policy for SMS Messaging </a>.
+        </div>
+
+        <button type="submit" class="cta" id="submit-consultation-btn" aria-label="Schedule a Consultation">
+          Schedule a Consultation
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <div id="thanks" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <a href="#" class="modal-close" id="modalCloseBtn" aria-label="Close popup">&times;</a>
+
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+      </div>
+
+      <span class="badge">Submission Successful</span>
+      <h3 id="modal-title">Thank You for Connecting!</h3>
+      <p class="modal-sub">
+        Your consultation request has been submitted successfully. A Prudent
+        enterprise solutions specialist will review your requirements and
+        reach out within <strong>1 business day</strong>.
+      </p>
+
+      <div class="detail-list">
+        <div class="detail-row">
+          <span class="detail-label">Status</span>
+          <span class="detail-value status-confirmed">✓ Request Received</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Client Name</span>
+          <span class="detail-value" id="summary-name">Valued Client</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Consultation Type</span>
+          <span class="detail-value" id="summary-service">Enterprise IT & Strategy</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Next Step</span>
+          <span class="detail-value">Discovery session & scoping</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="index.html" class="btn-primary">Return to Home</a>
+        <a href="Contact.html" class="btn-secondary" id="modalAnotherBtn">Submit Another Request</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="prudent-footer">
+    <div class="footer-main">
+      <div class="footer-column footer-services">
+        <h4>Services</h4>
+        <a href="services.html#data-ai">Data & AI Services</a>
+        <a href="services.html#digital-transformation">Digital Transformation</a>
+        <a href="services.html#cybersecurity">Cybersecurity Services</a>
+        <a href="services.html#enterprise-applications">Enterprise Applications</a>
+        <a href="services.html#workforce">IT Workforce Solutions</a>
+      </div>
+
+      <div class="footer-column footer-company">
+        <h4>Company</h4>
+        <a href="index.html#careers">Careers</a>
+        <a href="Contact.html">Contact us</a>
+      </div>
+
+      <div class="footer-column footer-contact">
+        <h4>Connect</h4>
+
+        <div class="social-icons">
+          <a href="https://www.facebook.com/PrudentCareers/" target="_blank" rel="noopener noreferrer"
+            aria-label="Facebook">f</a>
+          <a href="https://www.linkedin.com/company/prudent-technologies-and-consulting-inc/posts/?feedView=all"
+            target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
+          <a href="https://x.com/Prudent_USA" target="_blank" rel="noopener noreferrer" aria-label="X">𝕏</a>
+          <a href="https://www.youtube.com/@PrudentTechnologiesConsulting/" target="_blank" rel="noopener noreferrer"
+            aria-label="YouTube">▶</a>
+        </div>
+
+        <form class="news" id="newsletterForm" action="#newsletter-thanks" method="GET">
+          <div class="news-row">
+            <input type="email" id="newsletter-email" placeholder="Don't miss out updates" name="email" required />
+            <button type="submit" class="news-btn">Send</button>
+          </div>
+
+          <label>
+            <input type="checkbox" id="newsletter-agree" required />
+            <span>
+              I agree to the <a href="#" style="text-decoration: none; color: inherit;">Privacy Policy</a> and give my permission to
+              process my personal data.
+            </span>
+          </label>
+        </form>
+      </div>
+    </div>
+    </div>
+  </footer>
+
+  <div id="newsletter-thanks" class="thanks-modal" role="dialog" aria-modal="true" aria-labelledby="thanks-title">
+    <div class="thanks-card">
+      <a href="#" class="close-btn" id="newsCloseBtn" aria-label="Close">×</a>
+      <p id="thanks-title">Thank you for getting in touch!</p>
+    </div>
+  </div>
+</body>
+
+</html>
